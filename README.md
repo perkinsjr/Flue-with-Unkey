@@ -1,6 +1,6 @@
 # unkey-flue
 
-Example [Flue](https://flue.dev) agent server, deployable to [Unkey Deploy](https://unkey.com/docs/build-and-deploy/overview).
+Example [Flue](https://flueframework.com/) agent server, deployable to [Unkey Deploy](https://unkey.com/docs/build-and-deploy/overview).
 
 Three working agents:
 
