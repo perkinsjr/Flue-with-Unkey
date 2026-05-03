@@ -2,7 +2,7 @@
 
 Build Flue agents as a Node.js server and ship them to [Unkey Deploy](https://unkey.com/docs/build-and-deploy/overview) — Unkey's container platform with multi-region routing, automatic domains, instant rollbacks, and edge security via Sentinel. This guide walks you through preparing a Flue project for Unkey Deploy, writing the Dockerfile Unkey expects, and shipping with either GitHub or the `unkey` CLI.
 
-This guide assumes you've worked through [Deploy Agents on Node.js](https://flue.dev/docs/deploy-on-node) — the agent code, sandboxes, roles, skills, and commands all work identically. What changes here is the surrounding container and deploy story.
+This guide assumes you've worked through [Deploy Agents on Node.js](https://github.com/withastro/flue/blob/main/docs/deploy-node.md) — the agent code, sandboxes, roles, skills, and commands all work identically. What changes here is the surrounding container and deploy story.
 
 ## Why Unkey Deploy
 
