@@ -1,6 +1,6 @@
 # Deploy Agents on Unkey Deploy
 
-Build Flue agents as a Node.js server and ship them to [Unkey Deploy](https://unkey.com/docs/build-and-deploy/overview) — Unkey's container platform with multi-region routing, automatic domains, instant rollbacks, and edge security via Sentinel. This guide walks you through preparing a Flue project for Unkey Deploy, writing the Dockerfile Unkey expects, and shipping with either GitHub or the `unkey` CLI.
+Build Flue agents as a Node.js server and ship them to [Unkey Deploy](https://unkey.com/docs/build-and-deploy/overview) — Unkey's container platform with multi-region routing, automatic domains, instant rollbacks, and security via Sentinel. This guide walks you through preparing a Flue project for Unkey Deploy, writing the Dockerfile Unkey expects, and shipping with either GitHub or the `unkey` CLI.
 
 This guide assumes you've worked through [Deploy Agents on Node.js](https://github.com/withastro/flue/blob/main/docs/deploy-node.md) — the agent code, sandboxes, roles, skills, and commands all work identically. What changes here is the surrounding container and deploy story.
 
@@ -9,7 +9,7 @@ This guide assumes you've worked through [Deploy Agents on Node.js](https://gith
 Flue's Node.js target produces a plain Hono server. That means it runs anywhere Node runs, but Unkey Deploy gives you a few things you'd otherwise wire up by hand:
 
 - **Multi-region** — your agent runs in every region you select, with traffic routed to the nearest healthy instance.
-- **Sentinel at the edge** — drop in API key auth, rate limiting, and IP rules in front of `/agents/*` without touching your agent code.
+- **Sentinel** — drop in API key auth, rate limiting, and IP rules in front of `/agents/*` without touching your agent code.
 - **Preview environments per branch** — every PR gets its own URL, so you can test agent changes against real traffic before promoting.
 - **Instant rollbacks** — previous deployments stay warm; reverting is one click, no rebuild.
 
@@ -237,7 +237,7 @@ The summary table:
 
 ## Putting Sentinel in front of your agents
 
-Sentinel runs at the Unkey edge, before requests reach your container. The pattern that fits Flue best is to gate `/agents/*` behind Unkey API keys so callers need a valid key to invoke an agent — and you get rate limits, IP rules, and per-key analytics for free.
+Sentinel runs before requests reach your container. The pattern that fits Flue best is to gate `/agents/*` behind Unkey API keys so callers need a valid key to invoke an agent — and you get rate limits, IP rules, and per-key analytics for free.
 
 Configure Sentinel under **App → Sentinel** in the dashboard. The agent code stays unchanged — the auth check happens before your Node process sees the request, so a bad key never spends an LLM token.
 
@@ -249,7 +249,7 @@ Configure a GET health check against `/health` (which Flue's built server expose
 
 ## Regions and resources
 
-Pick regions under **App → Settings → Regions**. Pick the regions closest to where your agents' traffic originates — LLM latency dominates total response time, but the round trip from edge to your container still adds up.
+Pick regions under **App → Settings → Regions**. Pick the regions closest to where your agents' traffic originates — LLM latency dominates total response time, but the round trip from your container still adds up.
 
 For resources, the defaults (1/4 vCPU, 256 MiB) are fine for prompt-and-response agents that mostly wait on the model. Bump CPU and memory if you're using the local sandbox heavily, doing post-processing, or running the agent against large payloads. The beta caps are 2 vCPU, 4 GiB, and 4 instances per region.
 
