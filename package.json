@@ -1,0 +1,20 @@
+{
+  "name": "unkey-flue",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Example Flue agent server, deployable on Unkey Deploy.",
+  "scripts": {
+    "dev": "flue dev --target node --env .env",
+    "build": "flue build --target node",
+    "start": "node dist/server.mjs",
+    "translate": "flue run translate --target node --env .env"
+  },
+  "dependencies": {
+    "@flue/sdk": "^1.0.0",
+    "valibot": "^1.0.0"
+  },
+  "devDependencies": {
+    "@flue/cli": "^1.0.0",
+    "typescript": "^5.5.0"
+  }
+}
